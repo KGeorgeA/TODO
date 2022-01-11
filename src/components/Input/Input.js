@@ -15,6 +15,7 @@ class Input extends React.Component {
         return(
             <form onSubmit={this.handlerSubmit.bind(this)}>
                 <input id="input"/>
+                <input type="button" onClick={this.handlerSubmit.bind(this)}/>
             </form>
         );
     }
