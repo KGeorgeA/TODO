@@ -8,10 +8,12 @@ class Input extends React.Component {
             <Form 
                 onSubmit={this.props.handleSubmit} 
                 className="todos__form"
+
             >
                 <TextInput 
                     id="input" 
                     className="todos__input-text"
+                    placeholder="What needs to be?"
 
                 />
             </Form>
