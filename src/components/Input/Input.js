@@ -1,19 +1,20 @@
 import React from "react";
+import { Form, TextInput } from "../styles/Components.styled";
 
 class Input extends React.Component {
 
     render() {
         return(
-            <form 
+            <Form 
                 onSubmit={this.props.handleSubmit} 
                 className="todos__form"
             >
-                <input 
+                <TextInput 
                     id="input" 
                     className="todos__input-text"
-                        
+
                 />
-            </form>
+            </Form>
         );
     }
 }

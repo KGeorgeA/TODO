@@ -1,4 +1,5 @@
 import React from "react";
+import { TodoItem, TodoItemDiv } from "../styles/Components.styled";
 
 class Item extends React.Component {
 
@@ -8,13 +9,13 @@ class Item extends React.Component {
             const id = item.id;
             const isCompleted = item.isCompleted;
             return (
-                <li 
+                <TodoItem 
                     key={index} 
                     className="todos-list__item todo" 
-                    id={id}
-
+                    data-id={id}
+                    
                 >
-                    <div> {/* Возможно это лишнее */}
+                    <TodoItemDiv>
                         <input 
                             type="checkbox" 
                             onChange={this.props.handleComplete} 
@@ -22,16 +23,16 @@ class Item extends React.Component {
                             className="todo__checkbox" 
 
                         />
-                        <p className="todo__text">
-                            {`${value} ${id} ${isCompleted}`}
-                        </p>
+                        <label className="todo__text">
+                            {`${value}`}
+                        </label>
                         <button 
                             onClick={this.props.handleDelete} 
                             className="todo__button"
 
                         />
-                    </div>
-                </li>
+                    </TodoItemDiv>
+                </TodoItem>
             );
         });
     }

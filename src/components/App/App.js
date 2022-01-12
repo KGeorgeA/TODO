@@ -1,7 +1,8 @@
 import React from "react";
-import "./App.css";
+import { Container, Heading } from "../styles/Components.styled";
 import Input from "../Input/Input";
 import Todos from "../Todos/Todos";
+import Footer from "../Footer/Footer";
 
 class App extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class App extends React.Component {
     ev.preventDefault();
     const inputValue = ev.target.firstElementChild.value;
     const newTodos = [...this.state.todos, {id: Math.random() * 1200, value: inputValue, isCompleted: false}]; // MATH.random() может быть плохим примером?
-    console.log(newTodos);
+    
     localStorage.setItem("todos-json", JSON.stringify(newTodos));
     this.setState({
       todos: newTodos,
@@ -28,10 +29,11 @@ class App extends React.Component {
   }
 
   handleDelete(ev) {
-    const liParentId = parseInt(ev.target.closest(".todo").id);
+    const liParentId = parseInt(ev.target.closest(".todo").dataset.id);
     const itemIndex = this.state.todos.findIndex(item => parseInt(item.id) === parseInt(liParentId));
     const newTodos = this.state.todos.slice();
     newTodos.splice(itemIndex, 1);
+    
     localStorage.setItem("todos-json", JSON.stringify(newTodos));
     this.setState({
       todos: newTodos,
@@ -40,7 +42,7 @@ class App extends React.Component {
   }
 
   handleComplete(ev) {
-    const liParentId = parseInt(ev.target.closest(".todo").id);
+    const liParentId = parseInt(ev.target.closest(".todo").dataset.id);
     const newTodos = this.state.todos.map(item => {
       if (parseInt(item.id) === parseInt(liParentId)) {
         item.isCompleted = !item.isCompleted; 
@@ -56,18 +58,25 @@ class App extends React.Component {
 
   render() {
     return (
-      <main className="todos" id="todos">
-        <Input 
-          handleSubmit={this.handleSubmit}
+      <Container 
+        className="todos" 
+        id="todos"
+      >
+        <Heading> {/* works not like what i wanted FIX it */}
+          <h1>todos</h1>
+          <Input 
+            handleSubmit={this.handleSubmit}
 
-        />
+          />
+        </Heading>
         <Todos 
           todos={this.state.todos} 
           handleDelete={this.handleDelete} 
           handleComplete={this.handleComplete} 
 
         />
-      </main>
+        <Footer />
+      </Container>
     );
   }
 }
