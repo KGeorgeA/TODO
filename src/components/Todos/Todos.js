@@ -1,17 +1,19 @@
 import React from "react";
+import Item from "../Item/Item";
 
 class Todos extends React.Component {
 
-    
-  
   render() {
-    return this.props.todos.map((item, index) => {
-      let value = item.value;
-      let id = item.id;
-      return (
-        <li key={index}>{`${value} ${id}`}</li>
-      );
-    });
+    return (
+      <ul className="todos-list">
+        <Item 
+          todos={this.props.todos} 
+          handleDelete={this.props.handleDelete} 
+          handleComplete={this.props.handleComplete}
+
+        />
+      </ul>
+    )
   }
 }
 
