@@ -19,12 +19,14 @@ class App extends React.Component {
   handleSubmit(ev) {
     ev.preventDefault();
     const inputValue = ev.target.firstElementChild.value;
-    const newTodos = [...this.state.todos, {id: Math.random() * 1200, value: inputValue, isCompleted: false}]; // MATH.random() может быть плохим примером?
-    
-    localStorage.setItem("todos-json", JSON.stringify(newTodos));
-    this.setState({
-      todos: newTodos,
-    });
+    if (inputValue) {
+      const newTodos = [...this.state.todos, {id: Math.random() * 1200, value: inputValue, isCompleted: false}]; // MATH.random() может быть плохим примером?
+      
+      localStorage.setItem("todos-json", JSON.stringify(newTodos));
+      this.setState({
+        todos: newTodos,
+      });
+    }
     ev.target.firstElementChild.value = "";
   }
 
@@ -67,7 +69,7 @@ class App extends React.Component {
     const completedTodoArr = [];
     const activeTodoArr = [];
     
-    todos.map((item, index) => {
+    todos.map((item) => {
       if (item.isCompleted === true) completedTodoArr.push(item.id);
       if (item.isCompleted === false) activeTodoArr.push(item.id);
     });
