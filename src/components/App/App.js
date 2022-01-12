@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Heading } from "../styles/Components.styled";
+import { Container, Heading, Main } from "../styles/Components.styled";
 import Input from "../Input/Input";
 import Todos from "../Todos/Todos";
 import Footer from "../Footer/Footer";
@@ -56,26 +56,62 @@ class App extends React.Component {
     });
   }
 
+  getTodoAmount() {
+    const todos = this.state.todos;
+    const allTodoAmount = todos.length;
+    const completedTodoAmount = todos.reduce((count, item) => {
+      return item.isCompleted ? count += 1 : count;
+    }, 0);
+    const activeTodoAmount = allTodoAmount - completedTodoAmount;
+
+    const completedTodoArr = [];
+    const activeTodoArr = [];
+    
+    todos.map((item, index) => {
+      if (item.isCompleted === true) completedTodoArr.push(item.id);
+      if (item.isCompleted === false) activeTodoArr.push(item.id);
+    });
+    
+    return {
+      allTodoAmount, 
+      completed: {
+        completedTodoArr,
+        completedTodoAmount,
+      }, 
+      active: {
+        activeTodoArr,
+        activeTodoAmount,
+      },
+    }
+  }
+
   render() {
+    let todoFilterResult = this.getTodoAmount();
+    console.log(todoFilterResult);
     return (
       <Container 
-        className="todos" 
-        id="todos"
+        className="wrapper" 
+        id="wrapper"
       >
-        <Heading> {/* works not like what i wanted FIX it */}
+        <Heading>
           <h1>todos</h1>
+        </Heading>
+        <Main
+          className="todos"
+          id="todos"
+        >
           <Input 
             handleSubmit={this.handleSubmit}
 
           />
-        </Heading>
-        <Todos 
-          todos={this.state.todos} 
-          handleDelete={this.handleDelete} 
-          handleComplete={this.handleComplete} 
+          <Todos 
+            todos={this.state.todos} 
+            handleDelete={this.handleDelete} 
+            handleComplete={this.handleComplete} 
 
-        />
-        <Footer />
+          />
+          <Footer todos={this.state.todos} todoFilterResult={todoFilterResult}/>
+        </Main>
       </Container>
     );
   }
