@@ -5,9 +5,10 @@ class Item extends React.Component {
 
     render() {
         return this.props.todos.map((item, index) => {
-            const value = item.value;
-            const id = item.id;
-            const isCompleted = item.isCompleted;
+            // const value = item.value;
+            // const id = item.id;
+            // const isCompleted = item.isCompleted;
+            const { value, id, isCompleted } = item;
             return (
                 <TodoItem 
                     key={index} 
