@@ -6,6 +6,9 @@ const STYLE_VARIABLES = {
   lineHeight: "1.4rem",
   containerBackgroundColor: "#fff",
   bodyColor: "#f5f5f5",
+  completedColor: "#d9d9d9",
+  deleteButtonTextColor: "#cc9a9a",
+  deleteButtonTextColorHovered: "#af5b5e",
 }
 
 export const Container = styled.main`
@@ -34,6 +37,22 @@ export const Form = styled.form`
   width: 100%;
   max-height: 60px;
   height: 100%;
+
+  position:relative;
+
+    a {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      margin: auto 0;
+      z-index: 1;
+
+      cursor: pointer;
+      text-align: center;
+    }
 `
 
 export const TextInput = styled.input`
@@ -44,16 +63,24 @@ export const TextInput = styled.input`
 
   box-sizing: border-box;
   border: none;
-  ${'' /* box-shadow: inset 0 -2px 1px rgb(0,0,0 / 3%); */}
+  
   opacity: 30%;
+  &:focus {
+    opacity: 100%;
+  }
 `
 
 export const TodoList = styled.ul`
-  ${'' /* box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%), 0 25px 50px 0 rgb(0 0 0 / 10%); */}
+  border-top: 1px solid #e6e6e6;
 `
 
 export const TodoItem = styled.li`
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #e6e6e6;
+
+  &.completed {
+    color: ${STYLE_VARIABLES.completedColor};
+    text-decoration: line-through;
+  }
   
 `;
 
@@ -63,7 +90,11 @@ export const TodoItemDiv = styled.div`
   position: relative;
 
     input {
+      
+
       position: absolute;
+
+      border: none;
       width: 40px;
       height: 40px;
       top: 0;
@@ -77,21 +108,49 @@ export const TodoItemDiv = styled.div`
       word-break: break-all;
     }
     
-    button {
-      position:absolute;
+    
+    .todo__button {
+      ${'' /* display: none; */}
+      position: absolute;
       
       top: 0;
       right: 10px;
       bottom: 0;
 
-      ${'' /* border: none; */}
+      border: none;
       background: none;
       width: 40px;
       height: 40px;
       margin: auto 0;
+
+      color: ${STYLE_VARIABLES.deleteButtonTextColor};
+      font-size: 30px;
+      transition: color 0.2s ease-out;
     }
+
+      .todo__button:hover {
+        color: ${STYLE_VARIABLES.deleteButtonTextColorHovered};
+      }
 `;
 
 export const FooterStyle = styled.footer`
   background-color: #b2b2b2;
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    border: none;
+    background: none;
+  }
+    button:hover {
+      color: red;
+    }
+
+  .filters {
+    display: flex;
+  }
+  
+  .filters__button {
+
+  }
 `

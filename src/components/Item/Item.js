@@ -11,8 +11,9 @@ class Item extends React.Component {
             return (
                 <TodoItem 
                     key={index} 
-                    className="todos-list__item todo" 
+                    className={`todos-list__item todo ${isCompleted ? "completed" : ""}`}
                     data-id={id}
+                    
                     
                 >
                     <TodoItemDiv>
@@ -30,7 +31,7 @@ class Item extends React.Component {
                             onClick={this.props.handleDelete} 
                             className="todo__button"
 
-                        />
+                        >x</button>
                     </TodoItemDiv>
                 </TodoItem>
             );

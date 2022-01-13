@@ -11,8 +11,18 @@ class App extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleComplete = this.handleComplete.bind(this);
 
+    this.setAllCompleted = this.setAllCompleted.bind(this);
+    
+    this.handleGetCompleted = this.handleGetCompleted.bind(this);
+    this.handleGetActive = this.handleGetActive.bind(this);
+    this.handleGetAll = this.handleGetAll.bind(this);
+    this.handleDeleteAllCompleted = this.handleDeleteAllCompleted.bind(this);
+
     this.state = {
       todos: localStorage.getItem("todos-json") ? JSON.parse(localStorage.getItem("todos-json")) : [],
+      activeTodos: [],
+      completedTodos: [],
+      whichSet: 1,
     }
   }
 
@@ -40,7 +50,6 @@ class App extends React.Component {
     this.setState({
       todos: newTodos,
     });
-    console.log("newTodos findIndex", newTodos, itemIndex);
   }
 
   handleComplete(ev) {
@@ -58,38 +67,51 @@ class App extends React.Component {
     });
   }
 
-  getTodoAmount() {
-    const todos = this.state.todos;
-    const allTodoAmount = todos.length;
-    const completedTodoAmount = todos.reduce((count, item) => {
-      return item.isCompleted ? count += 1 : count;
-    }, 0);
-    const activeTodoAmount = allTodoAmount - completedTodoAmount;
-
-    const completedTodoArr = [];
-    const activeTodoArr = [];
-    
-    todos.map((item) => {
-      if (item.isCompleted === true) completedTodoArr.push(item.id);
-      if (item.isCompleted === false) activeTodoArr.push(item.id);
+  handleGetCompleted() {
+    const completedTodos = this.state.todos.map(item => item.isCompleted ? item : null);
+    this.setState({
+      completedTodos: completedTodos.filter(item => item != null),
+      activeTodos: [],
+      whichSet: -1,
     });
-    
-    return {
-      allTodoAmount, 
-      completed: {
-        completedTodoArr,
-        completedTodoAmount,
-      }, 
-      active: {
-        activeTodoArr,
-        activeTodoAmount,
-      },
-    }
+  }
+
+  handleGetActive() {
+    const activeTodos = this.state.todos.map(item => item.isCompleted ? null : item);
+    this.setState({
+      completedTodos: [],
+      activeTodos: activeTodos.filter(item => item != null),
+      whichSet: 0
+    });
+  }
+
+  handleGetAll() {
+    this.setState({
+      whichSet: 1,
+    });
+  }
+
+  handleDeleteAllCompleted() {
+    const todos = this.state.todos.filter(item => {
+      if (item.isCompleted !== true) return item;
+    });
+    this.setState({
+      todos: todos,
+    });
+    localStorage.setItem("todos-json", JSON.stringify(todos));
+  }
+
+  setAllCompleted() {
+    const todos = this.state.todos.map(item => item.isCompleted = true);
+    this.setState({
+      todos: todos,
+    });
+    localStorage.setItem("todos-json", JSON.stringify(todos));
   }
 
   render() {
-    let todoFilterResult = this.getTodoAmount();
-    console.log(todoFilterResult);
+    const todoAmount = this.state.todos.length;
+
     return (
       <Container 
         className="wrapper" 
@@ -107,13 +129,25 @@ class App extends React.Component {
 
           />
           <Todos 
-            todos={this.state.todos} 
+            todos={
+              this.state.whichSet === 1 ? 
+              this.state.todos : 
+              this.state.whichSet === 0 ? 
+              this.state.activeTodos :
+              this.state.completedTodos
+              } 
             handleDelete={this.handleDelete} 
             handleComplete={this.handleComplete} 
 
           />
-          <Footer todos={this.state.todos} todoFilterResult={todoFilterResult}/>
         </Main>
+        <Footer 
+          todoAmount={todoAmount} 
+          handleGetCompleted={this.handleGetCompleted} 
+          handleGetActive={this.handleGetActive}
+          handleGetAll={this.handleGetAll}
+          handleDeleteAllCompleted={this.handleDeleteAllCompleted}
+        />
       </Container>
     );
   }

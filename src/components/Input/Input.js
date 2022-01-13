@@ -10,6 +10,7 @@ class Input extends React.Component {
                 className="todos__form"
 
             >
+                {/* <a onClick={this.props.setAllCompleted}>&#9660;</a> */}
                 <TextInput 
                     id="input" 
                     className="todos__input-text"
