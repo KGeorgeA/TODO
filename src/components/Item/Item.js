@@ -5,28 +5,26 @@ class Item extends React.Component {
 
     render() {
         return this.props.todos.map((item, index) => {
-            // const value = item.value;
-            // const id = item.id;
-            // const isCompleted = item.isCompleted;
-            const { value, id, isCompleted } = item;
             return (
                 <TodoItem 
                     key={index} 
-                    className={`todos-list__item todo ${isCompleted ? "completed" : ""}`}
-                    data-id={id}
-                    
+                    className={`todos-list__item todo ${item.isCompleted ? "completed" : ""}`}
+                    data-id={item.id}
                     
                 >
-                    <TodoItemDiv>
+                    <TodoItemDiv
+                        checked={item.isCompleted}
+                    >
                         <input 
                             type="checkbox" 
                             onChange={this.props.handleComplete} 
-                            checked={isCompleted} 
+                            checked={item.isCompleted} 
                             className="todo__checkbox" 
 
                         />
+                        <span className="todo__checkbox_custom"></span>
                         <label className="todo__text">
-                            {`${value}`}
+                            {`${item.value}`}
                         </label>
                         <button 
                             onClick={this.props.handleDelete} 

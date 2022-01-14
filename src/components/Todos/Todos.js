@@ -11,7 +11,7 @@ class Todos extends React.Component {
           todos={this.props.todos} 
           handleDelete={this.props.handleDelete} 
           handleComplete={this.props.handleComplete}
-
+          
         />
       </TodoList>
     )

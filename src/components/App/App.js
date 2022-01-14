@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Heading, Main } from "../styles/Components.styled";
+import { Container, Heading, Main, CompleteAll } from "../styles/Components.styled";
 import Input from "../Input/Input";
 import Todos from "../Todos/Todos";
 import Footer from "../Footer/Footer";
@@ -7,16 +7,6 @@ import Footer from "../Footer/Footer";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleComplete = this.handleComplete.bind(this);
-
-    // this.setAllCompleted = this.setAllCompleted.bind(this);
-
-    // this.handleGetCompleted = this.handleGetCompleted.bind(this);
-    // this.handleGetActive = this.handleGetActive.bind(this);
-    // this.handleGetAll = this.handleGetAll.bind(this);
-    this.handleDeleteAllCompleted = this.handleDeleteAllCompleted.bind(this);
 
     const localTodos = localStorage.getItem("todos-json") ? JSON.parse(localStorage.getItem("todos-json")) : [];
 
@@ -24,46 +14,47 @@ class App extends React.Component {
       todos: localTodos,
       filtered: localTodos,
       filter: "All",
-    }
+    };
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("prevState", prevState);
-    console.log("this.state", this.state);
-    if (prevState.filter !== this.state.filter) {
+    if (prevState.filter !== this.state.filter || prevState.todos !== this.state.todos) {
       this.handleFilter(this.state.filter);
-    }
+    }     
   }
 
-  handleSubmit(ev) {
+  handleSubmit = (ev) => {
     ev.preventDefault();
     const inputValue = ev.target.firstElementChild.value;
     if (inputValue) {
-      const newTodos = [...this.state.todos, {id: Math.random() * 1200, value: inputValue, isCompleted: false}]; // MATH.random() может быть плохим примером?
+      const newTodos = [...this.state.todos, {id: Math.random() * 1200, value: inputValue, isCompleted: false}];
 
-      localStorage.setItem("todos-json", JSON.stringify(newTodos));
+      this.setTodosToLocalStorage(newTodos);
+
       this.setState({
         todos: newTodos,
+        filtered: newTodos,
+        filter: "All"
       });
     }
     ev.target.firstElementChild.value = "";
   }
 
-  handleDelete(ev) {
+  handleDelete = (ev) => {
     const liParentId = parseInt(ev.target.closest(".todo").dataset.id);
     const itemIndex = this.state.todos.findIndex(item => parseInt(item.id) === parseInt(liParentId));
     const newTodos = this.state.todos.slice();
     newTodos.splice(itemIndex, 1);
-
-    localStorage.setItem("todos-json", JSON.stringify(newTodos));
+    
+    this.setTodosToLocalStorage(newTodos);
     this.setState({
       todos: newTodos,
-      completedTodos: newTodos.map(item => item.isCompleted === true ? item : null).filter(item => item != null),
-      activeTodos: newTodos.map(item => item.isCompleted === true ? null : item).filter(item => item != null),
+      completedTodos: newTodos.filter(item => item.isCompleted === true),
+      activeTodos: newTodos.filter(item => item.isCompleted === false),
     });
   }
 
-  handleComplete(ev) {
+  handleComplete = (ev) => {
     const liParentId = parseInt(ev.target.closest(".todo").dataset.id);
     const newTodos = this.state.todos.map(item => {
       if (parseInt(item.id) === parseInt(liParentId)) {
@@ -72,7 +63,7 @@ class App extends React.Component {
       return item;
     });
 
-    localStorage.setItem("todos-json", JSON.stringify(newTodos));
+    this.setTodosToLocalStorage(newTodos);
     this.setState({
       todos: newTodos,
     });
@@ -83,21 +74,18 @@ class App extends React.Component {
       case "All":
         this.setState({
           filtered: this.state.todos,
-          // filter: "All",
-        })
+        });
         break;
       case "Active":
-        const active = this.state.todos.map(item => item.isCompleted !== true ? item : null).filter(item => item != null);
+        const active = this.state.todos.filter(item => item.isCompleted !== true);
         this.setState({
           filtered: active,
-          // filter: "Active",
-        })
+        });
         break;
       case "Completed":
-        const completed = this.state.todos.map(item => item.isCompleted === true ? item : null).filter(item => item != null);
+        const completed = this.state.todos.filter(item => item.isCompleted === true);
         this.setState({
           filtered: completed,
-          // filter: "Completed",
         });
         break;
 
@@ -107,56 +95,69 @@ class App extends React.Component {
   }
 
   changeFilter = (ev) => {
-    const filter = ev.target.innerText;
-    console.log(filter);
     this.setState({
-      filter: filter,
+      filter: ev.target.innerText,
     })
   }
 
-  // handleGetCompleted() {
-  //   const completedTodos = this.state.todos.map(item => item.isCompleted ? item : null)
-  //                                          .filter(item => item != null);
-  //   this.setState({
-  //     completedTodos: completedTodos,
-  //     activeTodos: [],
-  //   });
-  // }
+  handleDeleteAllCompleted = () => {
+    const todos = this.state.todos.filter(item => item.isCompleted !== true);
 
-  // handleGetActive() {
-  //   const activeTodos = this.state.todos.map(item => item.isCompleted ? null : item)
-  //                                       .filter(item => item !== null);
-  //   // console.log("activeTodos",activeTodos);
-
-  //   this.setState({
-  //     completedTodos: [],
-  //     activeTodos: activeTodos,
-  //   });
-  // }
-
-  // handleGetAll() {
-  //   this.setState({
-  //   });
-  // }
-
-  handleDeleteAllCompleted() {
-    const todos = this.state.todos.filter(item => {
-      if (item.isCompleted !== true) return item;
-    });
-    // console.log(todos);
     this.setState({
+      todos,
       filtered: todos,
     });
-    localStorage.setItem("todos-json", JSON.stringify(todos));
+    
+    this.setTodosToLocalStorage(todos);
   }
 
-  // setAllCompleted() {
-  //   const todos = this.state.todos.map(item => item.isCompleted = true);
-  //   this.setState({
-  //     todos: todos,
-  //   });
-  //   localStorage.setItem("todos-json", JSON.stringify(todos));
-  // }
+  toggleAllCompleted = () => {
+    let todos = [];
+    if (this.state.todos.reduce((count, item) => item.isCompleted ? count += 1: count, 0) === this.state.todos.length) {
+      todos = this.state.todos.map(item => {
+        if (item.isCompleted !== false) {
+          item.isCompleted = false;
+        }
+      return item;
+      });
+    } else {
+      todos = this.state.todos.map(item => {
+        if (item.isCompleted !== true) {
+          item.isCompleted = true;
+        }
+      return item;
+      });
+    }
+    
+    this.setState({
+      todos,
+      filtered: todos,
+    });
+    this.setTodosToLocalStorage(todos);
+  }
+
+  setTodosToLocalStorage = (arr) => {
+    localStorage.setItem("todos-json", JSON.stringify(arr));
+  } 
+
+   todoAmount = () => {
+    let am = 0;
+    switch (this.state.filter) {
+      case "All":
+          am = this.state.todos.length;
+        break;
+      case "Active":
+          am = this.state.todos.reduce((count, item) => item.isCompleted === false ? count += 1 : count, 0);
+        break;
+      case "Completed":
+          am = this.state.todos.reduce((count, item) => item.isCompleted === true ? count += 1 : count, 0);
+        break;
+    
+      default:
+        break;
+    }
+    return am;
+  }
 
   render() {
     return (
@@ -176,24 +177,38 @@ class App extends React.Component {
 
           />
           <Todos
-            // todos={filtered}
             todos={this.state.filtered}
             handleDelete={this.handleDelete}
             handleComplete={this.handleComplete}
 
           />
+          <CompleteAll 
+            isEmpty={this.state.todos.length ? 1 : 0}
+
+          >
+            <input
+              className="completeAll" 
+              type="checkbox" 
+              onChange={this.toggleAllCompleted}
+            />
+            <label/>
+          </CompleteAll>
         </Main>
-        <Footer
-          todoAmount={this.state.todos.length}
+        {
+          this.state.todos.length ?
+          
+          <Footer
+          todoAmount={this.todoAmount()}
 
           changeFilter={this.changeFilter}
 
-          // handleGetCompleted={this.handleGetCompleted}
-          // handleGetActive={this.handleGetActive}
-          // handleGetAll={this.handleGetAll}
           handleDeleteAllCompleted={this.handleDeleteAllCompleted}
           whichFilterSet={this.state.whichFilterSet}
-        />
+          filterValue={this.state.filter}
+          />
+          :
+          <></>
+        }
       </Container>
     );
   }
