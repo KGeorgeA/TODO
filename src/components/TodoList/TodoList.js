@@ -7,12 +7,24 @@ class TodoList extends React.Component {
         super(props);
     }
 
-    render() {
-        let { allCompleted, items } = this.props;
-
-        localStorage.setItem("todos-json", JSON.stringify([{allCompleted, items}]))
+    filterChanger = () => {
+        let {filter, items} = this.props;
         
-        return items.map(item =>{
+        switch (filter) {
+            case "All":
+                return items;
+            case "Active":
+                return items.filter(item => !item.isCompleted);
+            case "Completed":
+                return items.filter(item => item.isCompleted);
+        }
+    }
+
+    render() {
+        let { allCompleted, filter, items } = this.props;
+        localStorage.setItem("todos-json", JSON.stringify([{allCompleted, filter, items}]))
+        let list = this.filterChanger();
+        return list.map(item =>{
             return (
                 <TodoItem 
                     key={item.id}
@@ -29,6 +41,7 @@ class TodoList extends React.Component {
 const mapStateToProps = (state) => {
     return {
         allCompleted: state.todoReducers.allCompleted,
+        filter: state.todoReducers.filter,
         items: state.todoReducers.items,
     }
 }

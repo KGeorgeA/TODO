@@ -51,9 +51,9 @@ class TodoItem extends React.Component {
 const mapStateToProps = (state) => {
     return {
         allCompleted: state.todoReducers.allCompleted,
+        filter: state.todoReducers.filter,
         items: state.todoReducers.items,
     }
-    
 }
 
 const mapDispatchToProps = {
