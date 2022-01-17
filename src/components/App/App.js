@@ -5,19 +5,16 @@ import TodoList from "../TodoList/TodoList";
 import Footer from "../Footer/Footer";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     
     return (
       <Container>
         <Header />
-        <Main>
+        <Main className="todos">
           <TodoList />
-          <Footer />
         </Main>
+        <Footer />
       </Container>
     );
   }

@@ -26,6 +26,7 @@ class Footer extends React.Component {
 
     render() {
         return (
+            this.props.items.length ?
             <FooterStyle
                 className="footer"
             >
@@ -50,6 +51,7 @@ class Footer extends React.Component {
                 </ul>
                 <button className="footer__button" onClick={this.handleDeleteAllCompleted}>Clear all completed</button>
             </FooterStyle>
+            : <></>
         );
     };
 }

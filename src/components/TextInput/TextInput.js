@@ -38,7 +38,7 @@ class TextInput extends React.Component {
         return (
             <FormDiv>
                 <CompleteAll
-                    isEmpty={this.props.allCompleted}
+                    isEmpty={this.props.items.length}
                 >
                     <input
                         type="checkbox" 

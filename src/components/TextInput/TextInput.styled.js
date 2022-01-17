@@ -49,20 +49,20 @@ export const CompleteAll = styled.div`
 `;
 
 export const Input = styled.input`
-    width: 100%;
-    padding: 16px 16px 16px 60px;
+  width: 100%;
+  padding: 16px 16px 16px 60px;
 
-    font-size: 24px;
+  font-size: 24px;
 
-    box-sizing: border-box;
-    border: none;
+  box-sizing: border-box;
+  border: none;
 
-    opacity: 30%;
-    &:focus {
+  opacity: 30%;
+  &:focus {
     opacity: 100%;
-    }
+  }
 
-    @media screen and (max-width: 676px) {
+  @media screen and (max-width: 676px) {
     font-size: 14px;
-    }
+  }
 `;
