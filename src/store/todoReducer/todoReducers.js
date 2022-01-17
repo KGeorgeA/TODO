@@ -4,22 +4,28 @@ import {
     DELETE_ALL_COMPLETED,
     TOGGLE_COMPLETED,
     TOGGLE_ALL_COMPLETED,
-} from "../../constants/ActionTypes"
+} from "../../constants/ActionTypes";
+import {
+    SHOW_ALL,
+    SHOW_ACTIVE,
+    SHOW_COMPLETED,
+} from "../../constants/TodoFilters";
 
-let { allCompleted, items }  = localStorage.getItem("todos-json") 
-        ? JSON.parse(localStorage.getItem("todos-json"))[0]
-        : [{allCompleted: false, items: []}][0];
-
-const initial = {
-    allCompleted,
-    items
+const TITLES = {
+    [SHOW_ALL]: SHOW_ALL,
+    [SHOW_ACTIVE]: SHOW_ACTIVE,
+    [SHOW_COMPLETED]: SHOW_COMPLETED,
 }
+let { allCompleted, filter, items }  = localStorage.getItem("todos-json") 
+        ? JSON.parse(localStorage.getItem("todos-json"))[0]
+        : [{allCompleted: false, filter: TITLES[SHOW_ALL], items: []}][0];
 
-const todoReducers = (state = initial, action) => {
+const todoReducers = (state = {allCompleted, filter, items}, action) => {
     switch (action.type) {
         case ADD_TODO:
             return {
                 allCompleted: false,
+                filter: TITLES[SHOW_ALL],
                 items: [
                     ...state.items,
                     {
@@ -43,6 +49,7 @@ const todoReducers = (state = initial, action) => {
         case DELETE_ALL_COMPLETED:
             return {
                 allCompleted: false,
+                filter: TITLES[SHOW_ALL],
                 items: state.items.filter(item => !item.isCompleted),
             }
         case TOGGLE_COMPLETED:
@@ -56,8 +63,24 @@ const todoReducers = (state = initial, action) => {
         case TOGGLE_ALL_COMPLETED:
             return {
                 allCompleted: state.allCompleted ? false : true,
+                filter: SHOW_COMPLETED,
                 items: state.items.map(item => item.isCompleted === state.allCompleted ? {...item, isCompleted: !item.isCompleted} : item),
             }
+        case SHOW_ALL:
+            return {
+                ...state,
+                filter: TITLES[SHOW_ALL],
+            };
+        case SHOW_COMPLETED:
+            return {
+                ...state,
+                filter: TITLES[SHOW_COMPLETED],
+            };
+        case SHOW_ACTIVE:
+            return {
+                ...state,
+                filter: TITLES[SHOW_ACTIVE],
+            };    
         default:
             return state;
     }

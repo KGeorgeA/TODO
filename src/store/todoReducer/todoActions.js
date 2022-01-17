@@ -1,4 +1,4 @@
-import * as types from "../../constants/ActionTypes"
+import * as types from "../../constants/ActionTypes";
 
 export const addTodo = (value) => ({
     type: types.ADD_TODO,
@@ -23,3 +23,8 @@ export const toggleCompleted = (id) => ({
 export const toggleAllCompleted = () => ({
     type: types.TOGGLE_ALL_COMPLETED,
 });
+
+export const changeFilter = (filter) => ({
+    type: types.CHANGE_FILTER[filter],
+    filter,
+})
