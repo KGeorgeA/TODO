@@ -44,7 +44,7 @@ export const Heading = styled.header`
     font-size: 50px;
   }
 `
-
+// Пропущено
 export const Form = styled.form`
   width: 100%;
   max-height: 60px;

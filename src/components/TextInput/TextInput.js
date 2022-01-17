@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as todoActions from "../../store/todoReducer/todoActions";
-import { Input } from "../styles/Components.styled";
+import { FormDiv, Input, CompleteAll, CompleteAllCheckbox } from "./TextInput.styled";
 
 class TextInput extends React.Component {
     constructor(props) {
@@ -36,19 +36,25 @@ class TextInput extends React.Component {
 
     render() {
         return (
-            <>
-                <input // styles
-                    type="checkbox" 
-                    onChange={this.handleCompletedAllChange}
-                    checked={this.props.allCompleted}
-                />
+            <FormDiv>
+                <CompleteAll
+                    isEmpty={this.props.allCompleted}
+                >
+                    <input
+                        type="checkbox" 
+                        onChange={this.handleCompletedAllChange}
+                        checked={this.props.allCompleted}
+                        className="completeAll"
+                    />
+                    <label/>
+                </CompleteAll>
 
                 <Input
                     onChange={this.handleInputChange}
                     onKeyDown={this.handleSubmit}
                     placeholder="What needs to be done?"
                 />
-            </>
+            </FormDiv>
         );
     };
 }

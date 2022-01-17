@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "../styles/Components.styled";
+import { Container, Main } from "./App.styled";
 import Header from "../Header/Header";
 import TodoList from "../TodoList/TodoList";
 import Footer from "../Footer/Footer";
@@ -14,8 +14,10 @@ class App extends React.Component {
     return (
       <Container>
         <Header />
-        <TodoList />
-        <Footer />
+        <Main>
+          <TodoList />
+          <Footer />
+        </Main>
       </Container>
     );
   }

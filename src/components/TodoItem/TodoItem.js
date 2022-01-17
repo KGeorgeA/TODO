@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-// import { TodoItemDiv, TodoItemS } from "../styles/Components.styled";
+import { TodosItem, TodoItemDiv } from "./TodoItem.styled";
 import * as todoActions from "../../store/todoReducer/todoActions";
 
 
@@ -20,12 +20,13 @@ class TodoItem extends React.Component {
     render() {
         let { id, value, isCompleted } = this.props;
         return (
-            <li //TodoItemS
+            <TodosItem
                 key={id} 
                 data-id={id}
                 className={`todos-list__item todo ${isCompleted ? "completed" : ""}`}
             >
-                <div //TodoItemDiv
+                <TodoItemDiv 
+                    checked={isCompleted}
                 >
                     <input 
                         type="checkbox"
@@ -42,8 +43,8 @@ class TodoItem extends React.Component {
                         className="todo__button"
 
                     >x</button>
-                </div>
-            </li>
+                </TodoItemDiv>
+            </TodosItem>
         );
     }
 }

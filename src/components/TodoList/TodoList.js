@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import TodoItem from "../TodoItem/TodoItem";
+import {TodosList} from "./TodoList.styled";
 
 class TodoList extends React.Component {
     constructor(props) {
@@ -24,17 +25,21 @@ class TodoList extends React.Component {
         let { allCompleted, filter, items } = this.props;
         localStorage.setItem("todos-json", JSON.stringify([{allCompleted, filter, items}]))
         let list = this.filterChanger();
-        return list.map(item =>{
-            return (
-                <TodoItem 
-                    key={item.id}
-                    id={item.id} 
-                    value={item.value} 
-                    isCompleted={item.isCompleted}
+        return <TodosList>
+            {
+                list.map(item =>{
+                    return (
+                        <TodoItem 
+                            key={item.id}
+                            id={item.id} 
+                            value={item.value} 
+                            isCompleted={item.isCompleted}
 
-                />
-            );
-        });
+                        />
+                    );
+                })
+            }
+        </TodosList>
     };
 }
 

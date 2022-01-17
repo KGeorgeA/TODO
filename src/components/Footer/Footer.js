@@ -6,7 +6,7 @@ import {
     SHOW_ACTIVE,
     SHOW_COMPLETED,
 } from "../../constants/TodoFilters";
-import todoFilters from "../../store/todoReducer/todoFilters";
+import { FooterStyle } from "./Footer.styled";
 
 const TITLES = {
     [SHOW_ALL]: "All",
@@ -15,9 +15,6 @@ const TITLES = {
 };
 
 class Footer extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     handleDeleteAllCompleted = () => {
         this.props.deleteAllCompleted();
@@ -29,12 +26,12 @@ class Footer extends React.Component {
 
     render() {
         return (
-            <footer
+            <FooterStyle
                 className="footer"
             >
                 <span className="footer__amount">
                     {
-                        
+                        this.props.items.length + " " + (this.props.items.length === 1 ? "item" : "items") + " left."
                     }
                 </span>
                 <ul className="footer__list filters">
@@ -50,18 +47,9 @@ class Footer extends React.Component {
                             </li>    
                         )
                     }
-                    {/* <li className="filters__item">
-                        <button className={`filters__button ${this.state.filter === TITLES[this.state.filter] ? "selected" : ""}`}>All</button>
-                    </li>
-                    <li className="filters__item">
-                        <button className={`filters__button ${1 + 1}`}>Active</button>
-                    </li>
-                    <li className="filters__item">
-                        <button className={`filters__button ${1 + 1}`}>Completed</button>
-                    </li> */}
                 </ul>
                 <button className="footer__button" onClick={this.handleDeleteAllCompleted}>Clear all completed</button>
-            </footer>
+            </FooterStyle>
         );
     };
 }

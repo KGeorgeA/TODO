@@ -1,13 +1,14 @@
 import React from "react";
+import { Heading } from "./Header.styled";
 import TextInput from "../TextInput/TextInput";
 
 class Header extends React.Component {
     render() {
         return (
-            <header>
+            <Heading>
                 <h1>todos</h1>
                 <TextInput />
-            </header>
+            </Heading>
         );
     };
 }

@@ -37,6 +37,7 @@ const todoReducers = (state = {allCompleted, filter, items}, action) => {
             };
         case DELETE_TODO:
             return {
+                ...state,
                 allCompleted: 
                     state.items.length !== 1
                     ? state.allCompleted
@@ -57,6 +58,7 @@ const todoReducers = (state = {allCompleted, filter, items}, action) => {
                 parseInt(item.id) === parseInt(action.id) ? {...item, isCompleted: !item.isCompleted} : item
             );
             return {
+                ...state,
                 allCompleted: !newItems.filter(item => !item.isCompleted).length,
                 items: newItems,
             }
