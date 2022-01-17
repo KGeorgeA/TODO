@@ -51,7 +51,7 @@ export const Form = styled.form`
   height: 100%;
 `
 
-export const TextInput = styled.input`
+export const Input = styled.input`
   width: 100%;
   padding: 16px 16px 16px 60px;
 
@@ -74,7 +74,7 @@ export const TodoList = styled.ul`
   border-top: 1px solid #e6e6e6;
 `
 
-export const TodoItem = styled.li`
+export const TodoItemS = styled.li`
   border-bottom: 1px solid #e6e6e6;
 
   &:last-child {
