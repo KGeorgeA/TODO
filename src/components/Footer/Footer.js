@@ -1,19 +1,30 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as todoActions from "../../store/todoReducer/todoActions";
+import {
+    SHOW_ALL,
+    SHOW_ACTIVE,
+    SHOW_COMPLETED,
+} from "../../constants/TodoFilters";
+import todoFilters from "../../store/todoReducer/todoFilters";
 
+const TITLES = {
+    [SHOW_ALL]: "All",
+    [SHOW_ACTIVE]: "Active",
+    [SHOW_COMPLETED]: "Completed",
+};
 
 class Footer extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            filter: "All",
-        }
     }
 
     handleDeleteAllCompleted = () => {
         this.props.deleteAllCompleted();
+    }
+
+    handleFilterChange = (ev) => {
+        this.props.changeFilter(ev.target.innerText);
     }
 
     render() {
@@ -23,19 +34,31 @@ class Footer extends React.Component {
             >
                 <span className="footer__amount">
                     {
-                        //amount logic
+                        
                     }
                 </span>
                 <ul className="footer__list filters">
-                    <li className="filters__item">
-                        <button className={`filters__button ${1 + 1}`}>All</button>
+                    {
+                        Object.keys(TITLES).map(filter => 
+                            <li key={filter} className="filters__item">
+                                <button 
+                                    className={`filters__button ${this.props.filter === TITLES[filter] ? "selected" : ""}`}
+                                    onClick={this.handleFilterChange}
+                                >
+                                    {TITLES[filter]}
+                                </button>
+                            </li>    
+                        )
+                    }
+                    {/* <li className="filters__item">
+                        <button className={`filters__button ${this.state.filter === TITLES[this.state.filter] ? "selected" : ""}`}>All</button>
                     </li>
                     <li className="filters__item">
                         <button className={`filters__button ${1 + 1}`}>Active</button>
                     </li>
                     <li className="filters__item">
                         <button className={`filters__button ${1 + 1}`}>Completed</button>
-                    </li>
+                    </li> */}
                 </ul>
                 <button className="footer__button" onClick={this.handleDeleteAllCompleted}>Clear all completed</button>
             </footer>
@@ -46,6 +69,7 @@ class Footer extends React.Component {
 const mapStateToProps = (state) => {
     return {
         allCompleted: state.todoReducers.allCompleted,
+        filter: state.todoReducers.filter,
         items: state.todoReducers.items,
     }
 }
