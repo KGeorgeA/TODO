@@ -1,6 +1,7 @@
 import {
     ADD_TODO,
     DELETE_TODO,
+    DELETE_ALL_COMPLETED,
     TOGGLE_COMPLETED,
     TOGGLE_ALL_COMPLETED,
 } from "../../constants/ActionTypes"
@@ -38,6 +39,11 @@ const todoReducers = (state = initial, action) => {
                     state.items.length !== 1 
                     ? state.items.filter(item => parseInt(item.id) !== parseInt(action.id))
                     : []
+            }
+        case DELETE_ALL_COMPLETED:
+            return {
+                allCompleted: false,
+                items: state.items.filter(item => !item.isCompleted),
             }
         case TOGGLE_COMPLETED:
             let newItems = state.items.map(item => 

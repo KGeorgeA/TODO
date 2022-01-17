@@ -11,6 +11,10 @@ export const deleteTodo = (id) => ({
     id: id,
 });
 
+export const deleteAllCompleted = () => ({
+    type: types.DELETE_ALL_COMPLETED
+});
+
 export const toggleCompleted = (id) => ({
     type: types.TOGGLE_COMPLETED,
     id: id,
