@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 import App from './components/App/App.js';
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
       font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
     }
   }
-`
+`;
 
 ReactDOM.render(
   <React.StrictMode>

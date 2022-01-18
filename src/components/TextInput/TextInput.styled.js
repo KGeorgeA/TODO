@@ -1,15 +1,15 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 
 export const FormDiv = styled.div`
-    position: relative;
-    width: 100%;
-    max-height: 60px;
-    height: 100%;
+  position: relative;
+  width: 100%;
+  max-height: 60px;
+  height: 100%;
 `;
 
 export const CompleteAll = styled.div`
   position: absolute;
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,15 +21,14 @@ export const CompleteAll = styled.div`
   margin: 10px 0;
 
   input {
-
     position: absolute;
-    
+
     opacity: 0;
     border: none;
-    
+
     width: 40px;
     height: 40px;
-    
+
     top: 0;
     bottom: 0;
     margin: auto 0;
@@ -37,7 +36,7 @@ export const CompleteAll = styled.div`
   }
 
   label {
-    display: ${props => props.isEmpty ? "block" : "none"};
+    display: ${(props) => (props.isEmpty ? 'block' : 'none')};
     width: 40px;
     height: 40px;
 
