@@ -25,6 +25,10 @@ class Footer extends React.Component {
     }
 
     render() {
+        let filteredAmount = this.props.filter === "All" 
+                            ? this.props.items.length 
+                            : this.props.filter === "Active" ? this.props.items.filter(item => !item.isCompleted).length 
+                            : this.props.items.filter(item => item.isCompleted).length;
         return (
             this.props.items.length ?
             <FooterStyle
@@ -32,7 +36,7 @@ class Footer extends React.Component {
             >
                 <span className="footer__amount">
                     {
-                        this.props.items.length + " " + (this.props.items.length === 1 ? "item" : "items") + " left."
+                        filteredAmount + " " + (filteredAmount === 1 ? "item" : "items") + " left."
                     }
                 </span>
                 <ul className="footer__list filters">
