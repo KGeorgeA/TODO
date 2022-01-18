@@ -4,10 +4,6 @@ import TodoItem from '../TodoItem/TodoItem';
 import { TodosList } from './TodoList.styled';
 
 class TodoList extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   filterChanger = () => {
     let { filter, items } = this.props;
 
@@ -18,6 +14,8 @@ class TodoList extends React.Component {
         return items.filter((item) => !item.isCompleted);
       case 'Completed':
         return items.filter((item) => item.isCompleted);
+      default:
+        return items;
     }
   };
 

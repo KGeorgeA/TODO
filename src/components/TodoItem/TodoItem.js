@@ -4,10 +4,6 @@ import { TodosItem, TodoItemDiv } from './TodoItem.styled';
 import * as todoActions from '../../store/todoReducer/todoActions';
 
 class TodoItem extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleCompleteChange = (ev) => {
     this.props.toggleCompleted(ev.target.closest('.todo').dataset.id);
   };
